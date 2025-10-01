@@ -1,58 +1,49 @@
 ﻿using System;
 using System.Threading;
 
-class RainSimulation
+class Fruit
 {
+    public void Apple()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine("Fruit: Apple");
+            Thread.Sleep(1000);
+        }
+    }
+
+    public void Lichi()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine("Fruit: Lichi");
+            Thread.Sleep(1500);
+        }
+    }
+
+    public void Anar()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Console.WriteLine("Fruit: Anar");
+            Thread.Sleep(2000);
+        }
+    }
+
     static void Main()
     {
-        Console.CursorVisible = false;
-        Random rand = new Random();
-        string[] thunder = { "", "⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡", "" };
-        string car = @"
-        ____________________________
-       /|_||_\`.__                __\
-      (   _    _ _\   ASHFA      /  )
-      =`-(_)--(_)-'==============='";
+        Fruit fruit = new Fruit();  
 
-        for (int frame = 0; frame < 100; frame++)
-        {
-            Console.Clear();
+        Thread t1 = new Thread(new ThreadStart(fruit.Apple));
+        Thread t2 = new Thread(new ThreadStart(fruit.Lichi));
+        Thread t3 = new Thread(new ThreadStart(fruit.Anar));
 
-            // Thunder flash every few frames
-            if (frame % 15 == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(thunder[1]);
-                Console.ResetColor();
-            }
+        t1.Start();
+        t2.Start();
+        t3.Start();
 
-            // Simulate falling rain
-            for (int y = 0; y < 20; y++)
-            {
-                for (int x = 0; x < 60; x++)
-                {
-                    int drop = rand.Next(0, 100);
-                    if (drop < 3)
-                        Console.Write("|"); // heavy drop
-                    else if (drop < 6)
-                        Console.Write("."); // light drizzle
-                    else
-                        Console.Write(" ");
-                }
-                Console.WriteLine();
-            }
-
-            // Display animated SHOWER title
-            string title = "SHOWER";
-            char letter = title[frame % title.Length];
-            Console.WriteLine($"\n     {letter} . . . . . . . . . . . . . . . .");
-
-            // Show car
-            Console.WriteLine(car);
-
-            Thread.Sleep(120);
-        }
-
-        Console.CursorVisible = true;
+        t1.Join();
+        t2.Join();
+        t3.Join();
     }
 }
